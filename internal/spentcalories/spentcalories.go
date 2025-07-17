@@ -25,11 +25,16 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	}
 	
 	steps, err := strconv.Atoi(dataSlice[0])
-
 	if err != nil {
 		return 0, "0 шагов", 0, err
 	}
+
 	activity := dataSlice[1]
+	if activity != "Ходьба" && activity != "Бег" {
+		err := fmt.Errorf("неизвестный тип тренировки: %s", activity)
+		return 0, "", 0, err
+	}
+
 	duration, err := time.ParseDuration(dataSlice[2])
 	if err != nil {
 		return 0, "0 шагов", 0, err
